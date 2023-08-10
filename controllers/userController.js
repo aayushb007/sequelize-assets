@@ -148,9 +148,60 @@ async function resetPassword(req, res) {
   }
 }
 
+// async function initiatePasswordReset(req, res) {
+//     const { email } = req.body;
+  
+//     try {
+//       const user = await User.findOne({ where: { email } });
+//       if (!user) {
+//         return res.status(404).json({ error: 'User not found' });
+//       }
+  
+//       // Create a JWT token with a short expiration time for password reset
+//       const token = jwt.sign({ userId: user.id }, 'your-reset-secret-key', { expiresIn: '1h' });
+  
+//       // Send the password reset link to the user's email
+//       const resetLink = `https://your-app-url/reset-password/${token}`;
+//       sendResetEmail(email, resetLink);
+  
+//       return res.json({ message: 'Password reset link sent to your email' });
+//     } catch (error) {
+//       console.error(error);
+//       return res.status(500).json({ error: 'Internal server error' });
+//     }
+//   }
+  
+//   // Helper function to send password reset email
+//   function sendResetEmail(email, resetLink) {
+//     const transporter = nodemailer.createTransport({
+//       // Configure your email service here (e.g., Gmail, SMTP)
+//       service: 'gmail',
+//       auth: {
+//         user: 'your-email@example.com',
+//         pass: 'your-email-password',
+//       },
+//     });
+  
+//     const mailOptions = {
+//       from: 'your-email@example.com',
+//       to: email,
+//       subject: 'Password Reset',
+//       text: `Click the following link to reset your password: ${resetLink}`,
+//     };
+  
+//     transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//         console.error(error);
+//       } else {
+//         console.log('Email sent: ' + info.response);
+//       }
+//     });
+//   }
+  
+
 module.exports = {
   loginUser,
   registerUser,
   changePassword,
-  resetPassword,
+  resetPassword
 };
