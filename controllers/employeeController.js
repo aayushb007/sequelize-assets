@@ -72,7 +72,6 @@ async function getAssetForEmployee(req, res) {
       include: Asset,
     });
     if (!employee) {
-      console.log("hey");
       return res.status(404).json({ error: "Employee not found" });
     }
     return res.json(employee);
@@ -85,8 +84,7 @@ async function createAssetForEmployee(req, res) {
   try {
     const employee = await Employee.findByPk(req.params.employeeId);
     if (!employee) {
-      console.log("hey");
-      return res.status(404).json({ error: "Employee not found" });
+     return res.status(404).json({ error: "Employee not found" });
     }
 
     const asset = await Asset.create(req.body);

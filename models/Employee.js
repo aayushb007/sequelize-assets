@@ -24,7 +24,16 @@ Employee.init({
     contact:{
         type:DataTypes.INTEGER,
         allowNull:false
-    }
+    },
+    location:{
+        type:DataTypes.STRING,
+        allowNull:false
+    },
+    is_active:{
+        type:DataTypes.BOOLEAN,
+        allowNull:false
+
+    }    
     
 }, {
     sequelize,
