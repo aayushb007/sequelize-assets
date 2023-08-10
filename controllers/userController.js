@@ -16,14 +16,12 @@ async function loginUser(req, res) {
         error: "Invalid credentials",
       });
     }
-
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({
         error: "Invalid credentials",
       });
     }
-
     const token = jwt.sign(
       {
         userId: user.id,
@@ -33,7 +31,6 @@ async function loginUser(req, res) {
         expiresIn: "1h",
       }
     );
-
     return res.json({
       token,
     });
@@ -59,13 +56,11 @@ async function registerUser(req, res) {
         error: "User already exists",
       });
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({
       email,
       password: hashedPassword,
     });
-
     const token = jwt.sign(
       {
         userId: newUser.id,
@@ -75,7 +70,6 @@ async function registerUser(req, res) {
         expiresIn: "1h",
       }
     );
-
     return res.status(201).json({
       token,
     });
@@ -90,7 +84,6 @@ async function registerUser(req, res) {
 async function changePassword(req, res) {
   const { currentPassword, newPassword, confirmPassword } = req.body;
   const userId = req.userId; // Get user ID from JWT payload
-
   try {
     const user = await User.findByPk(userId);
     if (!user) {
@@ -98,7 +91,6 @@ async function changePassword(req, res) {
         error: "User not found",
       });
     }
-
     // Verify the current password
     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
     if (!passwordMatch) {
@@ -117,11 +109,9 @@ async function changePassword(req, res) {
         error: "New password and confirm password don't match",
       });
     }
-
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     await user.save();
-
     return res.json({
       message: "Password changed successfully",
     });
@@ -133,8 +123,34 @@ async function changePassword(req, res) {
   }
 }
 
+async function resetPassword(req, res) {
+  const { newPassword, confirmPassword } = req.body;
+  const token = req.header('Authorization');
+  try {
+    const decoded = jwt.verify(token, "my-key");
+    const user = await User.findByPk(decoded.userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    // Validate and hash the new password
+    if (newPassword !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ error: "New password and confirm password don't match" });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+    return res.json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 module.exports = {
   loginUser,
   registerUser,
   changePassword,
+  resetPassword,
 };

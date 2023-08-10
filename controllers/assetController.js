@@ -10,7 +10,6 @@ async function createAsset(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
 // Get all assets
 async function getAllAssets(req, res) {
   try {
@@ -21,7 +20,6 @@ async function getAllAssets(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
 // Get a specific asset by ID
 async function getAssetById(req, res) {
   try {
@@ -35,7 +33,6 @@ async function getAssetById(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
 // Update an asset
 async function updateAsset(req, res) {
   try {
@@ -50,7 +47,6 @@ async function updateAsset(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
 // Delete an asset
 async function deleteAsset(req, res) {
   try {

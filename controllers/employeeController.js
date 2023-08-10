@@ -10,7 +10,6 @@ async function createEmployee(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
 // Get all employees
 async function getAllEmployees(req, res) {
   try {
@@ -21,7 +20,6 @@ async function getAllEmployees(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
 // Get a specific employee by ID
 async function getEmployeeById(req, res) {
   try {
@@ -50,7 +48,6 @@ async function updateEmployee(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
 // Delete an employee
 async function deleteEmployee(req, res) {
   try {
@@ -65,7 +62,6 @@ async function deleteEmployee(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
 async function getAssetForEmployee(req, res) {
   try {
     const employee = await Employee.findByPk(req.params.employeeId, {
@@ -96,7 +92,6 @@ async function createAssetForEmployee(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
-
 module.exports = {
   createEmployee,
   getAllEmployees,
